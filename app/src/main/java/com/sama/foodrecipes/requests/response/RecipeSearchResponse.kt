@@ -21,4 +21,8 @@ class RecipeSearchResponse(
     override fun toString(): String {
         return "RecipeSearchResponse(count=$count, next='$next', previous='$previous', results=$results)"
     }
+
+    public fun geRecipes(): List<Recipe> {
+        return results
+    }
 }
