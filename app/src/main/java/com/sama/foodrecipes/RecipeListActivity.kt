@@ -40,28 +40,34 @@ class RecipeListActivity : BaseActivity() {
     private fun subscribeObservers() {
 
         recipeListViewModel.getRecipe().observe(this, Observer {
-
+            val response = it
         })
+
+    }
+
+    private fun searchRecipesApi(query: String, pageNumber: Int) {
+        recipeListViewModel.searchRecipesApi(query, pageNumber)
 
     }
 
 
     private fun getRecipe() {
-        val recipeApi = ServiceGenerator.getRecipeApi()
-        val response = recipeApi.searchRecipe("1", "chicken breast")
-        response.enqueue(object : Callback<RecipeSearchResponse> {
-            override fun onResponse(
-                call: Call<RecipeSearchResponse>,
-                response: Response<RecipeSearchResponse>
-            ) {
-                val res = response.toString()
-                val listRecipe = ArrayList<Recipe>(response.body()!!.geRecipes())
-            }
-
-            override fun onFailure(call: Call<RecipeSearchResponse>, t: Throwable) {
-                var err = t.toString()
-            }
-        })
+        searchRecipesApi("chicken breast", 1)
+//        val recipeApi = ServiceGenerator.getRecipeApi()
+//        val response = recipeApi.searchRecipe("1", "chicken breast")
+//        response.enqueue(object : Callback<RecipeSearchResponse> {
+//            override fun onResponse(
+//                call: Call<RecipeSearchResponse>,
+//                response: Response<RecipeSearchResponse>
+//            ) {
+//                val res = response.toString()
+//                val listRecipe = ArrayList<Recipe>(response.body()!!.geRecipes())
+//            }
+//
+//            override fun onFailure(call: Call<RecipeSearchResponse>, t: Throwable) {
+//                var err = t.toString()
+//            }
+//        })
 
     }
 }

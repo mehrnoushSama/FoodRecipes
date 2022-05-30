@@ -12,8 +12,9 @@ interface RecipeApi {
     @Headers("Authorization: Token 9c8b06d329136da358c2d00e76946b0111ce2c48")
     @GET("/api/recipe/search")
     fun searchRecipe(
-        @Query("page") page: String,
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: String
+
     ): Call<RecipeSearchResponse>
 
     @Headers("Authorization: Token 9c8b06d329136da358c2d00e76946b0111ce2c48")

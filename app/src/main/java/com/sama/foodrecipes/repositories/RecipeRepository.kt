@@ -24,7 +24,10 @@ class RecipeRepository {
         return recipeApiClient.getRecipes()
     }
 
+    fun searchRecipesApi(query: String, pageNumber: Int) {
+        recipeApiClient.searchRecipeApi(query, pageNumber)
 
+    }
 
 
 }

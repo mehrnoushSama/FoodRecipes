@@ -1,15 +1,19 @@
 package com.sama.foodrecipes.requests
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.sama.foodrecipes.AppExecuters
 import com.sama.foodrecipes.models.Recipe
-import com.sama.foodrecipes.repositories.RecipeRepository
-import com.sama.foodrecipes.util.Constants
+import com.sama.foodrecipes.requests.response.RecipeSearchResponse
 import com.sama.foodrecipes.util.Constants.Companion.NETWORK_TIME_OUT
+import retrofit2.Call
 import java.util.concurrent.TimeUnit
 
 class RecipeApiClient {
-    private var mRecipes: MutableLiveData<List<Recipe>> = MutableLiveData()
+
+    var mRecipes: MutableLiveData<List<Recipe>> = MutableLiveData()
+    private var mRetrieveRecipeRunnable: RetrieveRecipesRunnable? = null
+    private val mRecipeRequestTimeout = MutableLiveData<Boolean>()
 
     companion object {
         private lateinit var instance: RecipeApiClient
@@ -27,26 +31,58 @@ class RecipeApiClient {
 
 
     //request to server
-    fun searchRecipeApi() {
+    fun searchRecipeApi(query: String, pageNumber: Int) {
+        if (mRetrieveRecipeRunnable != null) {
+            mRetrieveRecipeRunnable = null
+        }
+        mRetrieveRecipeRunnable = RetrieveRecipesRunnable(query, pageNumber)
+        val handler = AppExecuters.getInstance().networkIO().submit(mRetrieveRecipeRunnable)
 
-        val handler = AppExecuters.getInstance().networkIO().submit(Runnable {
-//            mRecipes.postValue()
-
-        })
-
+        mRecipeRequestTimeout.postValue(true);
         AppExecuters.getInstance().networkIO().schedule(Runnable {
             handler.cancel(true)
+
         }, NETWORK_TIME_OUT, TimeUnit.MILLISECONDS)
 
     }
 
 
-    private class RetrieveRecipesRunnable(
-
-
-    ):Runnable {
+    private inner class RetrieveRecipesRunnable(
+        private val query: String,
+        private val pageNumber: Int
+    ) : Runnable {
+        private val cancelRequest: Boolean = false
+        private val TAG = "RecipeApiClient"
         override fun run() {
-            TODO("Not yet implemented")
+            val response = getRecipes(query, pageNumber).execute()
+            if (cancelRequest) {
+                return
+            }
+            if (response.code() == 200) {
+                val list = (response.body()!!.geRecipes())
+                if (pageNumber == 1) {
+                    mRecipes.postValue(list)
+                } else {
+                    var currentRecipes: ArrayList<Recipe> = mRecipes.value as ArrayList<Recipe>
+                    currentRecipes.addAll(list)
+                }
+            } else {
+                val error = response.errorBody().toString()
+                Log.d(TAG, error)
+            }
+        }
+
+        private fun getRecipes(
+            query: String, pageNumber: Int
+        ): Call<RecipeSearchResponse> {
+
+            return ServiceGenerator.getRecipeApi().searchRecipe(query, pageNumber.toString())
+
+        }
+
+        private fun cancelRequest() {
+            Log.d(TAG, "cancel Request")
+
         }
 
     }

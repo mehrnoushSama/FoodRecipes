@@ -10,7 +10,7 @@ class AppExecuters {
     companion object {
         private lateinit var instance: AppExecuters
         fun getInstance(): AppExecuters {
-            if (instance == null)
+          //  if (instance.equals(null))
                 instance = AppExecuters()
             return instance
         }
