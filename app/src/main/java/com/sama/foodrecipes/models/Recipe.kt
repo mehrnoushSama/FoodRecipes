@@ -8,17 +8,17 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 class Recipe(
     @SerializedName("title")
-    private var title: String,
+    var title: String,
     @SerializedName("publisher")
-    private var publisher: String,
+    var publisher: String,
     @SerializedName("ingredients")
-    private var ingredients: Array<String>,
+    var ingredients: Array<String>,
     @SerializedName("featured_image")
-    private var featured_image: String,
+    var featured_image: String,
     @SerializedName("rating")
-    private var rating: Int,
+    var rating: Int,
     @SerializedName("pk")
-    private var pk: Int,
+    var pk: Int,
 ) : Parcelable {
 
     override fun toString(): String {

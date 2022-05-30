@@ -1,46 +1,46 @@
 package com.sama.foodrecipes
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.sama.foodrecipes.models.Recipe
-import com.sama.foodrecipes.requests.ServiceGenerator
-import com.sama.foodrecipes.requests.response.RecipeSearchResponse
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.sama.foodrecipes.adapters.OnRecipeListener
+import com.sama.foodrecipes.adapters.RecipeRecyclerAdapter
 import com.sama.foodrecipes.viewModels.RecipeListViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.ArrayList
 
-class RecipeListActivity : BaseActivity() {
+class RecipeListActivity : BaseActivity(), OnRecipeListener {
 
     private lateinit var recipeListViewModel: RecipeListViewModel
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var adapter: RecipeRecyclerAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_list)
+        mRecyclerView = findViewById(R.id.recipe_list)
 
         recipeListViewModel = ViewModelProvider(this)[RecipeListViewModel::class.java]
+        initRecyclerView()
         subscribeObservers()
-        findViewById<Button>(R.id.test).setOnClickListener {
-            getRecipe()
-//            if (mProgressBar!!.visibility == View.VISIBLE)
-//                showProgressBar(false)
-//            else
-//                showProgressBar(true)
-        }
+        getRecipe()
+
+    }
+
+
+    private fun initRecyclerView() {
+        adapter = RecipeRecyclerAdapter(this)
+        mRecyclerView.adapter = adapter
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 
 
     private fun subscribeObservers() {
-
         recipeListViewModel.getRecipe().observe(this, Observer {
-            val response = it
+
+            adapter.setRecipes(it)
         })
 
     }
@@ -68,6 +68,14 @@ class RecipeListActivity : BaseActivity() {
 //                var err = t.toString()
 //            }
 //        })
+
+    }
+
+    override fun onRecipeClick(position: Int) {
+
+    }
+
+    override fun onCategoryClick(category: String) {
 
     }
 }

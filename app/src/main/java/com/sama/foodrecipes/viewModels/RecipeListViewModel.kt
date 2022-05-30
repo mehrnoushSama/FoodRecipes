@@ -14,8 +14,7 @@ class RecipeListViewModel() : ViewModel() {
     fun getRecipe(): MutableLiveData<List<Recipe>> {
         return recipeRepository.getRecipes()
     }
-
-
+    
     fun searchRecipesApi(query: String, pageNumber: Int) {
         recipeRepository.searchRecipesApi(query, pageNumber)
 
