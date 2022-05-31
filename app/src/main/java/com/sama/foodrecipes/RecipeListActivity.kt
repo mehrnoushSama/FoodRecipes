@@ -1,6 +1,7 @@
 package com.sama.foodrecipes
 
 import android.os.Bundle
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +25,24 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         recipeListViewModel = ViewModelProvider(this)[RecipeListViewModel::class.java]
         initRecyclerView()
         subscribeObservers()
+        initSearchView()
         getRecipe()
 
+    }
+
+    private fun initSearchView() {
+        val searchView = findViewById<SearchView>(R.id.search_View)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recipeListViewModel.searchRecipesApi(query as String, 1)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+
+        })
     }
 
 

@@ -37,7 +37,6 @@ class RecipeRecyclerAdapter(onRecipeListener: OnRecipeListener) :
                 .load(mRecipes!![position].featured_image)
                 .into(holder.image as ImageView)
 
-
         }
 
     }
