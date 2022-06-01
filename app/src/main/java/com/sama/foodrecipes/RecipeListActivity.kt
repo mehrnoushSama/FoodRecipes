@@ -34,6 +34,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         val searchView = findViewById<SearchView>(R.id.search_View)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                adapter.displayLoading()
                 recipeListViewModel.searchRecipesApi(query as String, 1)
                 return false
             }

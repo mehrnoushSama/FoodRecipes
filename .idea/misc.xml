@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Projects/FoodRecipes/app/src/main/res/layout/activity_base.xml" value="0.18" />
         <entry key="..\:/Projects/FoodRecipes/app/src/main/res/layout/activity_recipe_list.xml" value="0.35260416666666666" />
+        <entry key="..\:/Projects/FoodRecipes/app/src/main/res/layout/layout_category_list_item.xml" value="0.25" />
         <entry key="..\:/Projects/FoodRecipes/app/src/main/res/layout/layout_recipe_list_item.xml" value="0.25" />
+        <entry key="..\:/Projects/FoodRecipes/app/src/main/res/layout/loading_list_item.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

@@ -10,16 +10,17 @@ class Recipe(
     @SerializedName("title")
     var title: String,
     @SerializedName("publisher")
-    var publisher: String,
+    var publisher: String? = null,
     @SerializedName("ingredients")
-    var ingredients: Array<String>,
+    var ingredients: Array<String>? = null,
     @SerializedName("featured_image")
-    var featured_image: String,
+    var featured_image: String? = null,
     @SerializedName("rating")
-    var rating: Int,
+    var rating: Int? = null,
     @SerializedName("pk")
-    var pk: Int,
+    var pk: Int? = null,
 ) : Parcelable {
+
 
     override fun toString(): String {
         return "Recipe(title='$title', publisher='$publisher', ingredients=${ingredients.contentToString()}, featured_image='$featured_image', rating=$rating, pk=$pk)"

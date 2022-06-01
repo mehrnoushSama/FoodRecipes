@@ -5,11 +5,12 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.sama.foodrecipes.util.HorizontalDottedProgress
 
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    var mProgressBar: ProgressBar? = null
+    var mProgressBar: HorizontalDottedProgress? = null
 
     override fun setContentView(layoutResID: Int) {
 
